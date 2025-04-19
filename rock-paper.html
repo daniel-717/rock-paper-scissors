@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            padding-left: 30%;
+        }
+        .title{
+            font-size: 30px;
+        }
+        button{
+            width: 100px;
+            height: 30px;
+            border: none;
+            cursor: pointer;
+            background-color: rgba(45, 233, 12, 0.86);
+            color: white;
+            margin-bottom: 5%;
+        }
+        button:active{
+            background-color: rgba(198, 241, 7, 0.86);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="title">Rock Paper Scissors Game</p>
+        <button
+         onclick="playMove('rock')"
+        >Rock</button>
+        <button
+         onclick="playMove('paper')"
+        >Paper</button>
+        <button
+         onclick="playMove('scissor')"
+        >Scissors</button>
+        <button onclick="
+           score.wins = 0;
+           score.losses = 0;
+           score.ties = 0;
+           displayScore();
+           localStorage.removeItem('scores');
+        ">
+         Reset
+        </button>
+        <p class="display-result"></p>
+        <p class="display-score"></p>
+    </div>
+
+
+    <script>
+        let score = JSON.parse(localStorage.getItem('scores')) ||  {
+            wins: 0,
+            losses: 0,
+            ties: 0
+        };
+        /*
+            if(!score) { 
+                score = {
+                    wins: 0,
+                    losses: 0,
+                    ties: 0
+                };
+            }
+        */
+        displayScore();
+        function PickComputerMove() {
+            const  choice = ['rock', 'paper', 'scissor'];
+            const randomIndex = Math.floor(Math.random()*3);
+            return choice[randomIndex];
+        }
+
+        function displayScore() {
+            document.querySelector('.display-score').textContent = `Wins: ${score.wins} Losses: ${score.losses} Ties: ${score.ties}`;
+        }
+        function playMove(UserMove) {
+            const computerMove = PickComputerMove();
+            let result = '';
+            if(UserMove === computerMove) {
+                result = 'Tie';
+                score.ties++;
+            }else if((UserMove === 'rock' && computerMove === 'scissor') || (UserMove === 'paper' && computerMove === 'rock') || (UserMove === 'scissor' && computerMove === 'paper')){
+                result = 'You Win';
+                score.wins++;
+            }else {
+                result = 'You Lose';
+                score.losses++;
+            }
+            const display = document.querySelector('.display-result');
+            
+            displayScore();
+            display.textContent = `You Choose ${UserMove}. Computer Choose ${computerMove}. ${result}`;
+
+           localStorage.setItem('scores', JSON.stringify(score));
+        }
+    </script>
+</body>
+</html>

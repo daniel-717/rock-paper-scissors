@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-family: sans-serif;
+        }
+
+        .subscribe{
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: white;
+            background-color: black;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        input{
+            padding: 10px 15px;
+        }
+        .cal{
+            border: none;
+            color: white;
+            background-color: green;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .is-subscribed{
+            background-color: rgb(240, 240, 240);
+            color: black;
+        }
+        
+        .toggle-button{
+            border: none;
+            background-color: rgb(212, 208, 208);
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .color{
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <p>Youtube Subscribe Button</p>
+    <button class="subscribe js-subscribe" onclick="subscribe()">
+        Subscribe
+    </button>
+
+    <p>Amazon Shipping Calculator</p>
+    <p>Order under $40 = +$10 shipping</p>
+    <p>Order over $40 = FREE shipping</p>
+
+    <input type="text" placeholder="Cost of Order" class="js-order" onkeydown=" 
+      if(event.key === 'Enter') {
+        placeOrder()
+      }
+    "
+    >
+    <button class="cal" onclick="placeOrder()">Calculator</button>
+    <p class="js-display"></p>
+
+    <button class="toggle-button js-button-1" onclick="
+        changeColor();
+    ">Gaming</button>
+    <button class="toggle-button js-button-2" onclick="
+        changeColor();
+    ">Music</button>
+    <button class="toggle-button js-button-3" onclick="
+        changeColor();
+     ">Tech</button>
+
+    <script>
+         function subscribe() {
+            const buttonElement = document.querySelector('.js-subscribe');
+            if(buttonElement.innerText === 'Subscribe') {
+                buttonElement.innerText = 'Subscribed';
+                buttonElement.classList.add('is-subscribed');
+            }else {
+                buttonElement.innerText = 'Subscribe';
+                buttonElement.classList.remove('is-subscribed');
+            }
+         }
+
+         function placeOrder() {
+            let amount = Number(document.querySelector('.js-order').value);
+            if(amount < 40) {
+                amount += 10;
+            }
+            document.querySelector('.js-display').innerHTML = `$${amount}`;
+         }
+
+        function changeColor() 
+        {
+            const btn = document.querySelector('');
+            
+        } 
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(25, 25, 25);
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .title{
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .move-icon{
+            height: 50px;
+        }
+        .move-button{
+            background-color: transparent;
+            border: 3px solid white;
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .result{
+            font-size: 25px;
+            margin-top: 50px;
+            font-weight: bold;
+        }
+        .score{
+            margin-top: 50px;
+        }
+        .reset-score{
+            background-color: white;
+            border: none;
+            font-size: 15px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <p class="title">Rock Paper Scissors</p>
+        <button onclick="
+          playMove('rock')"
+          class="move-button"
+        >
+        <img src="images/rock-emoji.png" class="move-icon">
+       </button>
+
+        <button
+         onclick="playMove('paper')"
+         class="move-button"
+        >
+        <img src="images/paper-emoji.png" class="move-icon">
+       </button>
+
+        <button
+         onclick="playMove('scissor')"
+         class="move-button"
+        >
+        <img src="images/scissor-emoji.png" class="move-icon">
+        </button>
+
+        <p class="js-result result"></p>
+        <p class="js-moves">
+           
+        </p>
+        <p class="js-score score"></p>
+
+        <button onclick="
+           score.wins = 0;
+           score.losses = 0;
+           score.ties = 0;
+           displayScore();
+           localStorage.removeItem('scores');
+        " class="reset-score">
+         Reset Score
+        </button>
+
+    </div>
+
+
+    <script>
+        let score = JSON.parse(localStorage.getItem('scores')) ||  {
+            wins: 0,
+            losses: 0,
+            ties: 0
+        };
+        /*
+            if(!score) { 
+                score = {
+                    wins: 0,
+                    losses: 0,
+                    ties: 0
+                };
+            }
+        */
+        displayScore();
+        function PickComputerMove() {
+            const  choice = ['rock', 'paper', 'scissor'];
+            const randomIndex = Math.floor(Math.random()*3);
+            return choice[randomIndex];
+        }
+
+        function displayScore() {
+           document.querySelector('.js-score').innerHTML = `
+            Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}
+           `
+        }
+        function playMove(UserMove) {
+            const computerMove = PickComputerMove();
+            let result = '';
+            if(UserMove === computerMove) {
+                result = 'Tie.';
+                score.ties++;
+            }else if((UserMove === 'rock' && computerMove === 'scissor') || (UserMove === 'paper' && computerMove === 'rock') || (UserMove === 'scissor' && computerMove === 'paper')){
+                result = 'You Win.';
+                score.wins++;
+            }else {
+                result = 'You Lose.';
+                score.losses++;
+            }
+           
+            document.querySelector('.js-result').innerHTML = result;
+
+            document.querySelector('.js-moves').innerHTML = `
+            You 
+            <img src="images/${UserMove}-emoji.png" class="move-icon">
+            <img src="images/${computerMove}-emoji.png" class="move-icon">
+            Computer
+            `
+            displayScore();
+
+           localStorage.setItem('scores', JSON.stringify(score));
+        }
+    </script>
+</body>
+</html>
